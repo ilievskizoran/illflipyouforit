@@ -5,10 +5,13 @@
   "dependencies": {
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-scripts": "3.1.0"
+    "react-scripts": "3.1.0",
+    "serve": "^11.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start:dev": "react-scripts start",
+    "start": "serve --single ./build",
+    "deploy": "now --name illflipyouforit --target production",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

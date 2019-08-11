@@ -7,8 +7,6 @@ import FieldTopic from './components/FieldTopic';
 import FieldButton from './components/FieldButton';
 import Result from './components/Result';
 
-import './App.css';
-
 class App extends Component {
   state = {
     humans: {
