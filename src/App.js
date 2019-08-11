@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Confetti from 'react-confetti';
 import FieldContainer from './components/FieldContainer';
 import FieldHuman from './components/FieldHuman';
 import FieldHeadsTails from './components/FieldHeadsTails';
@@ -24,6 +25,7 @@ class App extends Component {
     winner: '',
     topic: '',
     roll: '',
+    confetti: false,
   };
 
   /*
@@ -69,6 +71,7 @@ class App extends Component {
 
       return {
         humans: {
+          ...prevState.humans,
           [targetHumanKey]: targetHuman,
           [otherHumanKey]: otherHuman,
         },
@@ -82,17 +85,29 @@ class App extends Component {
       const winnerHuman = Object.values(humans).find((human) => human.choice === roll);
       const winner = winnerHuman.name;
 
-      return { roll, winner };
+      return { roll, winner, confetti: true };
     });
   };
 
   render() {
     const {
-      winner, roll, topic, humans,
+      winner, roll, topic, humans, confetti,
     } = this.state;
+    const { tagline } = this.props;
     return (
-      <>
-        <h1>I&apos;ll flip you for it!</h1>
+      <div className="wrapper">
+        {confetti ? (
+          <Confetti
+            onConfettiComplete={() => {
+              this.setState(() => ({ confetti: false }));
+            }}
+            recycle={false}
+            run
+            width={window.innerWidth}
+            height={window.innerHeight}
+          />
+        ) : null}
+        <h1 className="title">{tagline}</h1>
         {Object.values(humans).map((human) => (
           <FieldContainer key={human.key}>
             <FieldHuman human={human} updateHumanName={this.updateHumanName} />
@@ -108,7 +123,7 @@ class App extends Component {
         <FieldContainer>
           <Result winner={winner} roll={roll} topic={topic} />
         </FieldContainer>
-      </>
+      </div>
     );
   }
 }
